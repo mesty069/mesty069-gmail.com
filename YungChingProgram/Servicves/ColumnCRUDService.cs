@@ -113,5 +113,27 @@ namespace YungChingProgram.Servicves
                 return "false";
             }
         }
+
+        public string DeleteColumnCRUDData(string pid)
+        {
+            try
+            {
+                ColumnCRUD columnCRUD = (from column in _db.ColumnCRUD
+                                         where column.Id == pid
+                                         select column).FirstOrDefault();
+                //查無資料，修改失敗
+                if (columnCRUD == null)
+                {
+                    return "查無此刪除資料，請確認人員編號是否異動或已刪除";
+                }
+                _db.ColumnCRUD.Remove(columnCRUD);
+                _db.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return "false";
+            }
+        }
     }
 }

@@ -16,7 +16,12 @@
 
         </td>
         <td style="text-align:center;"><input class="form-control" id="Pname" name="Pname" value="@item.Name" /></td>
-        <td style="text-align:center;"><input class="form-control" id="Psex" name="Psex" value="@item.Sex" /></td>
+        <td style="text-align:center;">
+            <input type="radio" name="Psex_@i" value="Male" @(!string.IsNullOrEmpty(item.Sex) && "Male".Equals(item.Sex) ? "checked=checked" : "" )>
+            <label>男</label>
+            <input type="radio" name="Psex_@i" value="Female" @(!string.IsNullOrEmpty(item.Sex) && "Female".Equals(item.Sex) ? "checked=checked" : "")>
+            <label>女</label>
+        </td>
         <td style="text-align:center;"><input class="form-control" id="Ptel" name="Ptel" value="@item.Tel" /></td>
         <td style="text-align:center;"><input class="form-control" id="Paddress" name="Paddress" value="@item.Address" /></td>
         <td><button type="button" class="btn btn-success" onclick="UpdateData(@i)">修改</button></td>

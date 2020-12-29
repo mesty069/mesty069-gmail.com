@@ -93,5 +93,27 @@ namespace YungChingProgram.Controllers
                 return Json(new { result = "false" });
             }
         }
+
+        /// <summary>
+        /// 刪除資料
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DeleteColumnCRUDData(string pid)
+        {
+            try
+            {
+                //判斷PKEY是否有填寫
+                if (string.IsNullOrEmpty(pid))
+                {
+                    return Json(new { result = "人員Id為空值，刪除失敗" });
+                }
+                var result = _service.DeleteColumnCRUDData(pid);
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "false" });
+            }
+        }
     }
 }

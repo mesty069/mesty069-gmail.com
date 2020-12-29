@@ -1,4 +1,5 @@
 ﻿@model YungChingProgram.ViewModels.ColumnCRUDViewModel
+<div class="wrape"
 <div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
     <label class="control-label col-md-2 col-sm-2 col-xs-12" style="font-size:16px;">
         姓名
@@ -22,27 +23,30 @@
     <div class="row">
         <div class="col-sm-12" style="text-align:center;">
             <div style="overflow:scroll;">
-                <table id="dataTable" class="table" style="word-break: keep-all;width:auto; height:100px; text-align:center" border="1">
+                <table style="width: 100%" class="table" border="1">
                     <thead>
                         <tr>
-                            <th>員工代碼</th>
-                            <th>員工類別</th>
-                            <th>姓名</th>
-                            <th>性別</th>
-                            <th>電話</th>
-                            <th>地址</th>
-                            <th></th>
-                            <th></th>
+                            <th style="width: 13%;">員工代碼</th>
+                            <th style="width: 13%;">員工類別</th>
+                            <th style="width: 13%;">姓名</th>
+                            <th style="width: 13%;">性別</th>
+                            <th style="width: 13%;">電話</th>
+                            <th style="width: 13%;">地址</th>
+                            <th style="width: 10%;"></th>
+                            <th style="width: 10%;"></th>
                         </tr>
                     </thead>
                     <tbody id="tbody"></tbody>
-                    <tr>
+                    <tr id="insertTr">
                         <td><input class="form-control" id="InputPid" name="InputPid" /></td>
                         <td>
                             @Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "InputPtype", @class = "form-control " })
                         </td>
                         <td><input class="form-control" id="InputPname" name="InputPname" /></td>
-                        <td><input class="form-control" id="InputPsex" name="InputPsex" /></td>
+                        <td>
+                            <input type="radio" name="InputPsex" value="Male"> 男
+                            <input type="radio" name="InputPsex" value="Female"> 女
+                        </td>
                         <td><input class="form-control" id="InputPtel" name="InputPtel" /></td>
                         <td><input class="form-control" id="InputPaddress" name="InputPaddress" /></td>
                         <td><button type="button" class="btn btn-success" onclick="InsertData()">新增</button></td>
@@ -52,6 +56,7 @@
         </div>
     </div>
 </div>
+
 <!--Modal-->
 <div class="modal fade" id="TipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -72,6 +77,26 @@
     </div>
 </div>
 
+<!--DeleteModal-->
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">提示</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="DeleteSpan"></span>
+            </div>
+            <div class="modal-footer">
+                <button id="DeleteConfirm" type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+                <button id="DeleteCancel" type="button" class="btn btn-primary">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>
@@ -94,13 +119,12 @@
     //新增一筆資料
     function InsertData()
     {
-        console.log("進入");
         $.ajax({
             url: '@Url.Action("InsertColumnCRUDData", "ColumnCRUD")',
             data: {
                 Id: $("#InputPid").val(),
                 Name: $("#InputPname").val(),
-                Sex: $("#InputPsex").val(),
+                Sex: $('input[name=InputPsex]:checked').val(),
                 Tel: $("#InputPtel").val(),
                 Type: $("#InputPtype option:selected").val(),
                 Address: $("#InputPaddress").val(),
@@ -111,9 +135,11 @@
                     $("#TipSpan").text("新增成功");
                     OpenTipModal();
                     GetDataList();
+                    $('#insertTr :input').val('');
                 }
                 else if (data.result == "false") {
                     $("#TipSpan").text("新增失敗");
+                    $("input[type=radio][name=InputPsex]").prop('checked', false);
                     OpenTipModal();
                 }
                 else
@@ -127,13 +153,13 @@
 
     function UpdateData(i)
     {
-
         $.ajax({
             url: '@Url.Action("UpdateColumnCRUDData", "ColumnCRUD")',
             data: {
                 Id: $("#columnCRUDData_" + i).find('#Pid').text(),
                 Name: $("#columnCRUDData_" + i).find('#Pname').val(),
                 Sex: $("#columnCRUDData_" + i).find('#Psex').val(),
+                Sex: $('input[name=Psex_' + i + ']:checked').val(),
                 Tel: $("#columnCRUDData_" + i).find('#Ptel').val(),
                 Type: $("#columnCRUDData_" + i).find('#Ptype option:selected').val(),
                 Address: $("#columnCRUDData_" + i).find('#Paddress').val(),
@@ -158,8 +184,48 @@
         })
     }
 
-    //顯示Dialog提示
+    function CheckDelete(i) {
+
+        $("#DeleteConfirm").attr('onclick', "DeleteData(" + i + ");");
+        var buildingName = $("#columnCRUDData_" + i).find('#Pid').text();
+        $("#DeleteSpan").text("是否確定刪除人員編號 (" + buildingName + ") 的資料?");
+        OpenDeleteModal();
+    }
+
+    function DeleteData(i)
+    {
+        $.ajax({
+            url: '@Url.Action("DeleteColumnCRUDData", "ColumnCRUD")',
+            data: {
+                pid: $("#columnCRUDData_" + i).find('#Pid').text(),
+            },
+            type: 'post',
+            success: function (data)
+            {
+                if (data.result == "true") {
+                    $("#TipSpan").text("刪除成功");
+                    GetDataList();
+                    OpenTipModal();
+                }
+                else if (data.result == "false") {
+                    $("#TipSpan").text("刪除失敗");
+                    OpenTipModal();
+                }
+                else {
+                    $("#TipSpan").text(data.result);
+                    OpenTipModal();
+                }
+            }
+        })
+    }
+
+    //顯示Modal提示
     function OpenTipModal() {
         $('#TipModal').modal("show");
+    }
+
+    //顯示刪除Modal提示
+    function OpenDeleteModal() {
+        $('#DeleteModal').modal("show");
     }
 </script>
