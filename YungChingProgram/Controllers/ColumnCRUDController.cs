@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YungChingProgram.Models.Database;
 using YungChingProgram.Servicves;
 using YungChingProgram.ViewModels;
 
@@ -26,6 +27,7 @@ namespace YungChingProgram.Controllers
                 return View();
             }
         }
+
         public PartialViewResult ColumnCRUDPartialView(string name, string type)
         {
             try
@@ -44,6 +46,28 @@ namespace YungChingProgram.Controllers
             catch (Exception ex)
             {
                 return PartialView(new ColumnCRUDPartialViewModel());
+            }
+        }
+
+        /// <summary>
+        /// 新增或資料
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult InsertColumnCRUDData(ColumnCRUD columnCRUDData)
+        {
+            try
+            {
+                //判斷PKEY是否有填寫
+                if (string.IsNullOrEmpty(columnCRUDData.Id))
+                {
+                    return Json(new { result = "人員代號為必填欄位" });
+                }
+                var result = _service.InsertColumnCRUDData(columnCRUDData);
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "false" });
             }
         }
     }

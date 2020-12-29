@@ -58,5 +58,31 @@ namespace YungChingProgram.Servicves
                 return null;
             }
         }
+
+        public string InsertColumnCRUDData(ColumnCRUD columnCRUDData)
+        {
+            try
+            {
+                ColumnCRUD columnCRUD = (from column in _db.ColumnCRUD
+                                         where column.Id == columnCRUDData.Id
+                                         select column).FirstOrDefault();
+                //搜尋出重複資料，新增失敗
+                if (columnCRUD != null)
+                {
+                    return "新增到重複ColumnCRUD資料，新增失敗";
+                }
+                columnCRUDData.Upuser = "admin";
+                columnCRUDData.Updatetime = DateTime.Now;
+                columnCRUDData.Cruser = "admin";
+                columnCRUDData.Crdatetime = DateTime.Now;
+                _db.ColumnCRUD.Add(columnCRUDData);
+                _db.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return "false";
+            }
+        }
     }
 }

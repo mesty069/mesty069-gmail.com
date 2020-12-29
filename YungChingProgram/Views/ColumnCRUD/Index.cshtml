@@ -36,13 +36,47 @@
                         </tr>
                     </thead>
                     <tbody id="tbody"></tbody>
+                    <tr>
+                        <td><input class="form-control" id="InputPid" name="InputPid" /></td>
+                        <td>
+                            @Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "InputPtype", @class = "form-control " })
+                        </td>
+                        <td><input class="form-control" id="InputPname" name="InputPname" /></td>
+                        <td><input class="form-control" id="InputPsex" name="InputPsex" /></td>
+                        <td><input class="form-control" id="InputPtel" name="InputPtel" /></td>
+                        <td><input class="form-control" id="InputPaddress" name="InputPaddress" /></td>
+                        <td><button type="button" class="btn btn-success" onclick="InsertData()">新增</button></td>
+                    </tr>
                 </table>
             </div>
         </div>
     </div>
 </div>
+<!--Modal-->
+<div class="modal fade" id="TipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">提示</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="TipSpan"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">確認</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
+
+    //取得查詢多筆資料
     function GetDataList() {
         $.ajax({
             url: '@Url.Action("ColumnCRUDPartialView", "ColumnCRUD")',
@@ -57,4 +91,42 @@
         })
     }
 
+    //新增一筆資料
+    function InsertData()
+    {
+        console.log("進入");
+        $.ajax({
+            url: '@Url.Action("InsertColumnCRUDData", "ColumnCRUD")',
+            data: {
+                Id: $("#InputPid").val(),
+                Name: $("#InputPname").val(),
+                Sex: $("#InputPsex").val(),
+                Tel: $("#InputPtel").val(),
+                Type: $("#InputPtype option:selected").val(),
+                Address: $("#InputPaddress").val(),
+            },
+            type: 'post',
+            success: function (data) {
+                if (data.result == "true") {
+                    $("#TipSpan").text("新增成功");
+                    OpenTipModal();
+                    GetDataList();
+                }
+                else if (data.result == "false") {
+                    $("#TipSpan").text("新增失敗");
+                    OpenTipModal();
+                }
+                else
+                {
+                    $("#TipSpan").text(data.result);
+                    OpenTipModal();
+                }
+            }
+        })
+    }
+
+    //顯示Dialog提示
+    function OpenTipModal() {
+        $('#TipModal').modal("show");
+    }
 </script>
