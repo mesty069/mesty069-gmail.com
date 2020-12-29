@@ -213,6 +213,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\ColumnCRUD\Index.cshtml" />
+    <Content Include="Views\ColumnCRUD\ColumnCRUDPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

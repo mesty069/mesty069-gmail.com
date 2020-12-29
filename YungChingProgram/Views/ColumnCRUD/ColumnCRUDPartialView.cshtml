@@ -1,0 +1,26 @@
+﻿@model YungChingProgram.ViewModels.ColumnCRUDPartialViewModel
+
+@{
+    ViewBag.Title = "ColumnCRUDPartialView";
+    var i = 0;
+}
+
+@foreach (var item in Model.ColumnCRUDDataModelList)
+{
+    i++;
+    <tr id="columnCRUDData_@i">
+        @*<td><input type="hidden" id="Pid" name="Pid"></td>*@
+        <td style="text-align:center;"><label id="Pid">@item.Id</label> </td>
+        <td style="text-align:center;">
+            @Html.DropDownListFor(model => item.Type, new SelectList(Model.TypeSelectList, "Value", "Text", item.Type), new { id = "Ptype", @class = "form-control " })
+
+        </td>
+        <td style="text-align:center;"><input class="form-control" id="Pname" name="Pname" value="@item.Name" /></td>
+        <td style="text-align:center;"><input class="form-control" id="Psex" name="Psex" value="@item.Sex" /></td>
+        <td style="text-align:center;"><input class="form-control" id="Ptel" name="Ptel" value="@item.Tel" /></td>
+        <td style="text-align:center;"><input class="form-control" id="Paddress" name="Paddress" value="@item.Address" /></td>
+        <td><button type="button" class="btn btn-success" onclick="UpdateData(@i)">修改</button></td>
+        <td><button type="button" class="btn btn-danger" onclick="CheckDelete(@i)">刪除</button></td>
+    </tr>
+
+}

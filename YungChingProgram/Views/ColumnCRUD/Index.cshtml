@@ -18,7 +18,7 @@
         <button type="button" class="btn btn-primary" onclick="GetDataList()">查詢</button>
     </div>
 </div>
-@*<div class="x_content">
+<div class="x_content">
     <div class="row">
         <div class="col-sm-12" style="text-align:center;">
             <div style="overflow:scroll;">
@@ -31,22 +31,30 @@
                             <th>性別</th>
                             <th>電話</th>
                             <th>地址</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="tbody"></tbody>
-                    <tr>
-                        <td><input class="form-control" id="InputPid" name="InputPid" /></td>
-                        <td>
-                            @Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "InputPtype", @class = "form-control " })
-                        </td>
-                        <td><input class="form-control" id="InputPname" name="InputPname" /></td>
-                        <td><input class="form-control" id="InputPsex" name="InputPsex" /></td>
-                        <td><input class="form-control" id="InputPtel" name="InputPtel" /></td>
-                        <td><input class="form-control" id="InputPaddress" name="InputPaddress" /></td>
-                        <td><button type="button" class="btn btn-success" onclick="InsertData()">新增</button></td>
-                    </tr>
                 </table>
             </div>
         </div>
     </div>
-</div>*@
+</div>
+
+<script>
+    function GetDataList() {
+        $.ajax({
+            url: '@Url.Action("ColumnCRUDPartialView", "ColumnCRUD")',
+            data: {
+                name: $('#queryName').val(),
+                type: $('#queryType option:selected').val()
+            },
+            type: 'post',
+            success: function (data) {
+                $('#tbody').html(data);
+            }
+        })
+    }
+
+</script>

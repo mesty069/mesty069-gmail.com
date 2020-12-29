@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YungChingProgram.Models;
 using YungChingProgram.Models.Database;
 
 namespace YungChingProgram.Servicves
@@ -26,6 +27,35 @@ namespace YungChingProgram.Servicves
             catch (Exception ex)
             {
                 return new List<SelectListItem>();
+            }
+        }
+
+        /// <summary>
+        /// 取得多筆人員資料
+        /// </summary>
+        /// <returns></returns>
+        public List<ColumnCRUDDataModel> GetColumnCRUDDataList(string name, string type)
+        {
+            try
+            {
+                var typeSelectList = GetTypeSelectList();
+                var columnCRUDDataList = (from columnData in _db.ColumnCRUD
+                                          where (columnData.Name == null || (columnData.Name.Contains(name)) &&
+                                          (string.IsNullOrEmpty(type) || columnData.Type == type))
+                                          select new ColumnCRUDDataModel
+                                          {
+                                              Sex = columnData.Sex,
+                                              Id = columnData.Id,
+                                              Name = columnData.Name,
+                                              Tel = columnData.Tel,
+                                              Type = columnData.Type,
+                                              Address = columnData.Address
+                                          }).ToList();
+                return columnCRUDDataList;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }
