@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Class_group" />
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Class_group" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="60" />
+          <Property Name="Flag" Type="char" MaxLength="1" />
+          <Property Name="Upuser" Type="varchar" MaxLength="10" />
+          <Property Name="Cruser" Type="varchar" MaxLength="10" />
+          <Property Name="Updatetime" Type="datetime" />
+          <Property Name="Crdatetime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ColumnCRUD">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="12" />
+          <Property Name="Sex" Type="varchar" MaxLength="12" />
+          <Property Name="Tel" Type="varchar" MaxLength="12" />
+          <Property Name="Type" Type="varchar" MaxLength="12" />
+          <Property Name="Address" Type="varchar" MaxLength="12" />
+          <Property Name="Updatetime" Type="datetime" />
+          <Property Name="Crdatetime" Type="datetime" />
+          <Property Name="Cruser" Type="varchar" MaxLength="10" />
+          <Property Name="Upuser" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityContainer Name="TestDBModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ColumnCRUD" EntityType="Self.ColumnCRUD" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Class_group" />
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Class_group" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="Flag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Upuser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Cruser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Updatetime" Type="DateTime" Precision="3" />
+          <Property Name="Crdatetime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ColumnCRUD">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Sex" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Tel" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Updatetime" Type="DateTime" Precision="3" />
+          <Property Name="Crdatetime" Type="DateTime" Precision="3" />
+          <Property Name="Cruser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Upuser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="TestDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Category" EntityType="Self.Category" />
+          <EntitySet Name="ColumnCRUD" EntityType="Self.ColumnCRUD" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDBModelStoreContainer" CdmEntityContainer="TestDBEntities">
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="TestDBModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Class_group" ColumnName="Class_group" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Flag" ColumnName="Flag" />
+                <ScalarProperty Name="Upuser" ColumnName="Upuser" />
+                <ScalarProperty Name="Cruser" ColumnName="Cruser" />
+                <ScalarProperty Name="Updatetime" ColumnName="Updatetime" />
+                <ScalarProperty Name="Crdatetime" ColumnName="Crdatetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ColumnCRUD">
+            <EntityTypeMapping TypeName="TestDBModel.ColumnCRUD">
+              <MappingFragment StoreEntitySet="ColumnCRUD">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Updatetime" ColumnName="Updatetime" />
+                <ScalarProperty Name="Crdatetime" ColumnName="Crdatetime" />
+                <ScalarProperty Name="Cruser" ColumnName="Cruser" />
+                <ScalarProperty Name="Upuser" ColumnName="Upuser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

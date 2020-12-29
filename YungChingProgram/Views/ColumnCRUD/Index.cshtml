@@ -1,0 +1,52 @@
+﻿@model YungChingProgram.ViewModels.ColumnCRUDViewModel
+<div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
+    <label class="control-label col-md-2 col-sm-2 col-xs-12" style="font-size:16px;">
+        姓名
+    </label>
+    <div class="col-md-2 col-sm-2 col-xs-12">
+        <input class="form-control" id="queryName" name="queryName" />
+    </div>
+</div>
+<div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
+    <label class="control-label col-md-2 col-sm-2 col-xs-12" style="font-size:16px;">
+        類別
+    </label>
+    <div class="col-md-2 col-sm-2 col-xs-12">
+        @Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "queryType", @class = "form-control " })
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-12" style="text-align:right;">
+        <button type="button" class="btn btn-primary" onclick="GetDataList()">查詢</button>
+    </div>
+</div>
+@*<div class="x_content">
+    <div class="row">
+        <div class="col-sm-12" style="text-align:center;">
+            <div style="overflow:scroll;">
+                <table id="dataTable" class="table" style="word-break: keep-all;width:auto; height:100px; text-align:center" border="1">
+                    <thead>
+                        <tr>
+                            <th>員工代碼</th>
+                            <th>員工類別</th>
+                            <th>姓名</th>
+                            <th>性別</th>
+                            <th>電話</th>
+                            <th>地址</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                    <tr>
+                        <td><input class="form-control" id="InputPid" name="InputPid" /></td>
+                        <td>
+                            @Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "InputPtype", @class = "form-control " })
+                        </td>
+                        <td><input class="form-control" id="InputPname" name="InputPname" /></td>
+                        <td><input class="form-control" id="InputPsex" name="InputPsex" /></td>
+                        <td><input class="form-control" id="InputPtel" name="InputPtel" /></td>
+                        <td><input class="form-control" id="InputPaddress" name="InputPaddress" /></td>
+                        <td><button type="button" class="btn btn-success" onclick="InsertData()">新增</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>*@
