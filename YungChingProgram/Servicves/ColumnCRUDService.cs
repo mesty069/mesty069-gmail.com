@@ -40,8 +40,8 @@ namespace YungChingProgram.Servicves
             {
                 var typeSelectList = GetTypeSelectList();
                 var columnCRUDDataList = (from columnData in _db.ColumnCRUD
-                                          where (columnData.Name == null || (columnData.Name.Contains(name)) &&
-                                          (string.IsNullOrEmpty(type) || columnData.Type == type))
+                                          where (string.IsNullOrEmpty(name) || columnData.Name.Contains(name)) &&
+                                          (string.IsNullOrEmpty(type) || columnData.Type == type)
                                           select new ColumnCRUDDataModel
                                           {
                                               Sex = columnData.Sex,
@@ -76,6 +76,35 @@ namespace YungChingProgram.Servicves
                 columnCRUDData.Cruser = "admin";
                 columnCRUDData.Crdatetime = DateTime.Now;
                 _db.ColumnCRUD.Add(columnCRUDData);
+                _db.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return "false";
+            }
+        }
+
+        public string UpdateColumnCRUDData(ColumnCRUDDataModel columnCRUDDataModel)
+        {
+            try
+            {
+                ColumnCRUD columnCRUD = (from column in _db.ColumnCRUD
+                                         where column.Id == columnCRUDDataModel.Id
+                                         select column).FirstOrDefault();
+                //查無資料，修改失敗
+                if (columnCRUD == null)
+                {
+                    return "查無此修改資料，請確認人員編號是否異動或刪除";
+                }
+                _db.ColumnCRUD.Attach(columnCRUD);
+                columnCRUD.Address = columnCRUDDataModel.Address;
+                columnCRUD.Name = columnCRUDDataModel.Name;
+                columnCRUD.Sex = columnCRUDDataModel.Sex;
+                columnCRUD.Tel = columnCRUDDataModel.Tel;
+                columnCRUD.Type = columnCRUDDataModel.Type;
+                columnCRUD.Upuser = "admin";
+                columnCRUD.Updatetime = DateTime.Now;
                 _db.SaveChanges();
                 return "true";
             }

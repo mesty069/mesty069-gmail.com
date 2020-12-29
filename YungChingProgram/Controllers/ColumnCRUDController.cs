@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YungChingProgram.Models;
 using YungChingProgram.Models.Database;
 using YungChingProgram.Servicves;
 using YungChingProgram.ViewModels;
@@ -63,6 +64,28 @@ namespace YungChingProgram.Controllers
                     return Json(new { result = "人員代號為必填欄位" });
                 }
                 var result = _service.InsertColumnCRUDData(columnCRUDData);
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "false" });
+            }
+        }
+
+        /// <summary>
+        /// 新增或修改資料
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult UpdateColumnCRUDData(ColumnCRUDDataModel columnCRUDDataModel)
+        {
+            try
+            {
+                //判斷PKEY是否有填寫
+                if (string.IsNullOrEmpty(columnCRUDDataModel.Id))
+                {
+                    return Json(new { result = "false" });
+                }
+                var result = _service.UpdateColumnCRUDData(columnCRUDDataModel);
                 return Json(new { result = result });
             }
             catch (Exception ex)

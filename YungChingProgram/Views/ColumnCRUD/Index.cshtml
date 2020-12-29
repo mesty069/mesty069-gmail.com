@@ -125,6 +125,39 @@
         })
     }
 
+    function UpdateData(i)
+    {
+
+        $.ajax({
+            url: '@Url.Action("UpdateColumnCRUDData", "ColumnCRUD")',
+            data: {
+                Id: $("#columnCRUDData_" + i).find('#Pid').text(),
+                Name: $("#columnCRUDData_" + i).find('#Pname').val(),
+                Sex: $("#columnCRUDData_" + i).find('#Psex').val(),
+                Tel: $("#columnCRUDData_" + i).find('#Ptel').val(),
+                Type: $("#columnCRUDData_" + i).find('#Ptype option:selected').val(),
+                Address: $("#columnCRUDData_" + i).find('#Paddress').val(),
+            },
+            type: 'post',
+            success: function (data)
+            {
+                if (data.result == "true") {
+                    $("#TipSpan").text("修改成功");
+                    GetDataList();
+                    OpenTipModal();
+                }
+                else if (data.result == "false") {
+                    $("#TipSpan").text("修改失敗");
+                    OpenTipModal();
+                }
+                else {
+                    $("#TipSpan").text(data.result);
+                    OpenTipModal();
+                }
+            }
+        })
+    }
+
     //顯示Dialog提示
     function OpenTipModal() {
         $('#TipModal').modal("show");
