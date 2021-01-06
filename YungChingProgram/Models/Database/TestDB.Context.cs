@@ -27,5 +27,6 @@ namespace YungChingProgram.Models.Database
     
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<ColumnCRUD> ColumnCRUD { get; set; }
+        public virtual DbSet<SingleCRUD> SingleCRUD { get; set; }
     }
 }

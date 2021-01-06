@@ -13,7 +13,7 @@
         類別
     </label>
     <div class="col-md-2 col-sm-2 col-xs-12">
-        @Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "queryType", @class = "form-control " })
+@Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "queryType", @class = "form-control " })
     </div>
     <div class="col-md-2 col-sm-2 col-xs-12" style="text-align:right;">
         <button type="button" class="btn btn-primary" onclick="GetDataList()">查詢</button>
@@ -40,7 +40,7 @@
                     <tr id="insertTr">
                         <td><input class="form-control" id="InputPid" name="InputPid" /></td>
                         <td>
-                            @Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "InputPtype", @class = "form-control " })
+@Html.DropDownListFor(model => model.TypeSelectList, Model.TypeSelectList, new { id = "InputPtype", @class = "form-control " })
                         </td>
                         <td><input class="form-control" id="InputPname" name="InputPname" /></td>
                         <td>
@@ -106,126 +106,127 @@
         $.ajax({
             url: '@Url.Action("ColumnCRUDPartialView", "ColumnCRUD")',
             data: {
-                name: $('#queryName').val(),
-                type: $('#queryType option:selected').val()
+            name: $('#queryName').val(),
+            type: $('#queryType option:selected').val()
             },
             type: 'post',
             success: function (data) {
-                $('#tbody').html(data);
+            $('#tbody').html(data);
             }
-        })
-    }
+            })
+            }
 
-    //新增一筆資料
-    function InsertData()
-    {
-        $.ajax({
+            //新增一筆資料
+            function InsertData()
+            {
+            $.ajax({
             url: '@Url.Action("InsertColumnCRUDData", "ColumnCRUD")',
             data: {
-                Id: $("#InputPid").val(),
-                Name: $("#InputPname").val(),
-                Sex: $('input[name=InputPsex]:checked').val(),
-                Tel: $("#InputPtel").val(),
-                Type: $("#InputPtype option:selected").val(),
-                Address: $("#InputPaddress").val(),
+            Id: $("#InputPid").val(),
+            Name: $("#InputPname").val(),
+            Sex: $('input[name=InputPsex]:checked').val(),
+            Tel: $("#InputPtel").val(),
+            Type: $("#InputPtype option:selected").val(),
+            Address: $("#InputPaddress").val(),
             },
             type: 'post',
             success: function (data) {
-                if (data.result == "true") {
-                    $("#TipSpan").text("新增成功");
-                    OpenTipModal();
-                    GetDataList();
-                    $('#insertTr :input').val('');
-                }
-                else if (data.result == "false") {
-                    $("#TipSpan").text("新增失敗");
-                    $("input[type=radio][name=InputPsex]").prop('checked', false);
-                    OpenTipModal();
-                }
-                else
-                {
-                    $("#TipSpan").text(data.result);
-                    OpenTipModal();
-                }
-            }
-        })
-    }
+            if (data.result == "true") {
+            $("#TipSpan").text("新增成功");
+            OpenTipModal();
+            GetDataList();
+            $('#insertTr :input').val('');
+            $("input[type=radio][name=InputPsex]").prop('checked', false);
 
-    function UpdateData(i)
-    {
-        $.ajax({
+            }
+            else if (data.result == "false") {
+            $("#TipSpan").text("新增失敗");
+            OpenTipModal();
+            }
+            else
+            {
+            $("#TipSpan").text(data.result);
+            OpenTipModal();
+            }
+            }
+            })
+            }
+
+            function UpdateData(i)
+            {
+            $.ajax({
             url: '@Url.Action("UpdateColumnCRUDData", "ColumnCRUD")',
             data: {
-                Id: $("#columnCRUDData_" + i).find('#Pid').text(),
-                Name: $("#columnCRUDData_" + i).find('#Pname').val(),
-                Sex: $("#columnCRUDData_" + i).find('#Psex').val(),
-                Sex: $('input[name=Psex_' + i + ']:checked').val(),
-                Tel: $("#columnCRUDData_" + i).find('#Ptel').val(),
-                Type: $("#columnCRUDData_" + i).find('#Ptype option:selected').val(),
-                Address: $("#columnCRUDData_" + i).find('#Paddress').val(),
+            Id: $("#columnCRUDData_" + i).find('#Pid').text(),
+            Name: $("#columnCRUDData_" + i).find('#Pname').val(),
+            Sex: $("#columnCRUDData_" + i).find('#Psex').val(),
+            Sex: $('input[name=Psex_' + i + ']:checked').val(),
+            Tel: $("#columnCRUDData_" + i).find('#Ptel').val(),
+            Type: $("#columnCRUDData_" + i).find('#Ptype option:selected').val(),
+            Address: $("#columnCRUDData_" + i).find('#Paddress').val(),
             },
             type: 'post',
             success: function (data)
             {
-                if (data.result == "true") {
-                    $("#TipSpan").text("修改成功");
-                    GetDataList();
-                    OpenTipModal();
-                }
-                else if (data.result == "false") {
-                    $("#TipSpan").text("修改失敗");
-                    OpenTipModal();
-                }
-                else {
-                    $("#TipSpan").text(data.result);
-                    OpenTipModal();
-                }
+            if (data.result == "true") {
+            $("#TipSpan").text("修改成功");
+            GetDataList();
+            OpenTipModal();
             }
-        })
-    }
+            else if (data.result == "false") {
+            $("#TipSpan").text("修改失敗");
+            OpenTipModal();
+            }
+            else {
+            $("#TipSpan").text(data.result);
+            OpenTipModal();
+            }
+            }
+            })
+            }
 
-    function CheckDelete(i) {
+            function CheckDelete(i) {
 
-        $("#DeleteConfirm").attr('onclick', "DeleteData(" + i + ");");
-        var buildingName = $("#columnCRUDData_" + i).find('#Pid').text();
-        $("#DeleteSpan").text("是否確定刪除人員編號 (" + buildingName + ") 的資料?");
-        OpenDeleteModal();
-    }
+            $("#DeleteConfirm").attr('onclick', "DeleteData(" + i + ");");
+            var buildingName = $("#columnCRUDData_" + i).find('#Pid').text();
+            $("#DeleteSpan").text("是否確定刪除人員編號 (" + buildingName + ") 的資料?");
+            OpenDeleteModal();
+            }
 
-    function DeleteData(i)
-    {
-        $.ajax({
+            function DeleteData(i)
+            {
+            $.ajax({
             url: '@Url.Action("DeleteColumnCRUDData", "ColumnCRUD")',
             data: {
-                pid: $("#columnCRUDData_" + i).find('#Pid').text(),
+            pid: $("#columnCRUDData_" + i).find('#Pid').text(),
             },
             type: 'post',
             success: function (data)
             {
-                if (data.result == "true") {
-                    $("#TipSpan").text("刪除成功");
-                    GetDataList();
-                    OpenTipModal();
-                }
-                else if (data.result == "false") {
-                    $("#TipSpan").text("刪除失敗");
-                    OpenTipModal();
-                }
-                else {
-                    $("#TipSpan").text(data.result);
-                    OpenTipModal();
-                }
+            if (data.result == "true") {
+            $("#TipSpan").text("刪除成功");
+            GetDataList();
+            OpenTipModal();
             }
-        })
-    }
+            else if (data.result == "false") {
+            $("#TipSpan").text("刪除失敗");
+            OpenTipModal();
+            }
+            else {
+            $("#TipSpan").text(data.result);
+            OpenTipModal();
+            }
+            }
+            })
+            }
 
-    //顯示Modal提示
-    function OpenTipModal() {
-        $('#TipModal').modal("show");
-    }
+            //顯示Modal提示
+            function OpenTipModal() {
+            $('#TipModal').modal("show");
+            }
 
-    //顯示刪除Modal提示
-    function OpenDeleteModal() {
-        $('#DeleteModal').modal("show");
-    }
-</script>
+            //顯示刪除Modal提示
+            function OpenDeleteModal() {
+            $('#DeleteModal').modal("show");
+            }
+            </script>

@@ -1,0 +1,24 @@
+﻿@model YungChingProgram.ViewModels.SingleCRUDViewModel
+
+<div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
+    <label class="control-label col-md-2 col-sm-2 col-xs-12" style="font-size:16px;">
+        部門名稱
+    </label>
+    <div class="col-md-2 col-sm-2 col-xs-12">
+        <input class="form-control" id="queryDName" name="queryDName" />
+    </div>
+</div>
+<div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
+    <label class="control-label col-md-2 col-sm-2 col-xs-12" style="font-size:16px;">
+        部門類別
+    </label>
+    <div class="col-md-2 col-sm-2 col-xs-12">
+        @Html.DropDownListFor(model => model.DTypeSelectList, Model.DTypeSelectList, new { id = "queryDType", @class = "form-control " })
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:right;">
+        <button type="button" class="btn btn-primary" onclick="GetPartialViewDataList()">查詢</button>
+        <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("SingleCRUDInfo", "SingleCRUD")'">新增</button>
+        <button type="button" class="btn btn-danger" id="DeleteButton" disabled onclick="DeleteOpenTipModal()">刪除</button>
+        <button type="button" class="btn btn-info" id="UpdateButton" disabled onclick="UpdateData()">修改</button>
+    </div>
+</div>

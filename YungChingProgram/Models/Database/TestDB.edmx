@@ -34,9 +34,23 @@
           <Property Name="Cruser" Type="varchar" MaxLength="10" />
           <Property Name="Upuser" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="SingleCRUD">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="10" />
+          <Property Name="Headcount" Type="varchar" MaxLength="10" />
+          <Property Name="Dtype" Type="varchar" MaxLength="10" />
+          <Property Name="Upuser" Type="varchar" MaxLength="10" />
+          <Property Name="Cruser" Type="varchar" MaxLength="10" />
+          <Property Name="Crdatetime" Type="datetime" />
+          <Property Name="Updatetime" Type="datetime" />
+        </EntityType>
         <EntityContainer Name="TestDBModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ColumnCRUD" EntityType="Self.ColumnCRUD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SingleCRUD" EntityType="Self.SingleCRUD" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -72,9 +86,23 @@
           <Property Name="Cruser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Upuser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="SingleCRUD">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Headcount" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Dtype" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Upuser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Cruser" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Crdatetime" Type="DateTime" Precision="3" />
+          <Property Name="Updatetime" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityContainer Name="TestDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Category" EntityType="Self.Category" />
           <EntitySet Name="ColumnCRUD" EntityType="Self.ColumnCRUD" />
+          <EntitySet Name="SingleCRUD" EntityType="Self.SingleCRUD" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -109,6 +137,20 @@
                 <ScalarProperty Name="Crdatetime" ColumnName="Crdatetime" />
                 <ScalarProperty Name="Cruser" ColumnName="Cruser" />
                 <ScalarProperty Name="Upuser" ColumnName="Upuser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SingleCRUD">
+            <EntityTypeMapping TypeName="TestDBModel.SingleCRUD">
+              <MappingFragment StoreEntitySet="SingleCRUD">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Headcount" ColumnName="Headcount" />
+                <ScalarProperty Name="Dtype" ColumnName="Dtype" />
+                <ScalarProperty Name="Upuser" ColumnName="Upuser" />
+                <ScalarProperty Name="Cruser" ColumnName="Cruser" />
+                <ScalarProperty Name="Crdatetime" ColumnName="Crdatetime" />
+                <ScalarProperty Name="Updatetime" ColumnName="Updatetime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
