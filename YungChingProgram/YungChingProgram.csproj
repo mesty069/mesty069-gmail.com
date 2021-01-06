@@ -158,6 +158,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TestDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\SingleCRUDModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicves\ColumnCRUDService.cs" />
     <Compile Include="Servicves\SingleCRUDService.cs" />
@@ -221,6 +222,7 @@
     <Content Include="Views\ColumnCRUD\Index.cshtml" />
     <Content Include="Views\ColumnCRUD\ColumnCRUDPartialView.cshtml" />
     <Content Include="Views\SingleCRUD\Index.cshtml" />
+    <Content Include="Views\SingleCRUD\SingleCRUDPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

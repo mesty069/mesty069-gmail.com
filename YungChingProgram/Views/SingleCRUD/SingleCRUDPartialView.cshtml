@@ -1,0 +1,18 @@
+﻿@model YungChingProgram.ViewModels.SingleCRUDPartialViewModel
+
+@{
+    ViewBag.Title = "ColumnCRUDPartialView";
+    var i = 0;
+}
+
+@foreach (var item in Model.SingleCRUDModelList)
+{
+    i++;
+    <tr ondblclick="ClickTrSelectedCheckBox(@i)" id="singleCRUDData_@i">
+        <td><input type="checkbox" id="vehicle1" name="vehicle1" onchange="CheckCombox()" value="checkbox" style="zoom:200%;"></td>
+        <td style="text-align:center;"><label id="Did">@item.Id</label></td>
+        <td style="text-align:center;"><label id="Dname">@item.Name</label></td>
+        <td style="text-align:center;"><label id="Dtype">@item.Dtype</label></td>
+        <td style="text-align:center;"><label id="HeadCount">@item.HeadCount</label></td>
+    </tr>
+}

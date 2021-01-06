@@ -17,8 +17,40 @@
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:right;">
         <button type="button" class="btn btn-primary" onclick="GetPartialViewDataList()">查詢</button>
-        <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("SingleCRUDInfo", "SingleCRUD")'">新增</button>
-        <button type="button" class="btn btn-danger" id="DeleteButton" disabled onclick="DeleteOpenTipModal()">刪除</button>
-        <button type="button" class="btn btn-info" id="UpdateButton" disabled onclick="UpdateData()">修改</button>
     </div>
 </div>
+<div class="x_content">
+    <div class="row">
+        <div class="col-sm-12" style="text-align:center;">
+                <table style="width: 100%" class="table" border="1">
+                    <thead>
+                        <tr>
+                            <th style="width: 3%;">選項</th>
+                            <th style="width: 13%;">公司代碼</th>
+                            <th style="width: 13%;">公司名稱</th>
+                            <th style="width: 13%;">公司類別</th>
+                            <th style="width: 13%;">公司人數</th>
+                            <th style="width: 13%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+    </div>
+</div>
+
+<script>
+    function GetPartialViewDataList() {
+        $.ajax({
+            url: '@Url.Action("SingleCRUDPartialView", "SingleCRUD")',
+            data: {
+                name: $('#queryDName').val(),
+                type: $('#queryDType option:selected').val()
+            },
+            type: 'post',
+            success: function (data) {
+                $('#tbody').html(data);
+            }
+        })
+    }
+</script>

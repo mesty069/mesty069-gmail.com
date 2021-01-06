@@ -27,5 +27,31 @@ namespace YungChingProgram.Controllers
                 return View();
             }
         }
+
+        public PartialViewResult SingleCRUDPartialView(string name, string type)
+        {
+            try
+            {
+                SingleCRUDPartialViewModel singleCRUDPartialViewModel = new SingleCRUDPartialViewModel();
+                singleCRUDPartialViewModel.SingleCRUDModelList = _service.GetSingleCRUDDataList(name, type);
+                if (singleCRUDPartialViewModel.SingleCRUDModelList == null)
+                {
+                    singleCRUDPartialViewModel.ErrorMessage = "查詢發生錯誤";
+                    return PartialView(singleCRUDPartialViewModel);
+                }
+                var selectList = _service.GetDtypeSelecList();
+                selectList.Insert(0, new SelectListItem { Value = "", Text = "請選擇" });
+                singleCRUDPartialViewModel.DTypeSelectList = new SelectList(selectList, "Value", "Text");
+                if (singleCRUDPartialViewModel.DTypeSelectList == null)
+                {
+                    return PartialView(new ColumnCRUDPartialViewModel());
+                }
+                return PartialView(singleCRUDPartialViewModel);
+            }
+            catch (Exception ex)
+            {
+                return PartialView();
+            }
+        }
     }
 }
