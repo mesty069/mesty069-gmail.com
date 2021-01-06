@@ -223,6 +223,7 @@
     <Content Include="Views\ColumnCRUD\ColumnCRUDPartialView.cshtml" />
     <Content Include="Views\SingleCRUD\Index.cshtml" />
     <Content Include="Views\SingleCRUD\SingleCRUDPartialView.cshtml" />
+    <Content Include="Views\SingleCRUD\SingleCRUDInfo.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

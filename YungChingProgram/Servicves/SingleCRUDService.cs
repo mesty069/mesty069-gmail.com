@@ -53,6 +53,86 @@ namespace YungChingProgram.Servicves
             }
         }
 
+        public string InsertSingleCRUDData(SingleCRUD singleCRUDData)
+        {
+            try
+            {
+                SingleCRUD singleCRUD = (from singleData in _db.SingleCRUD
+                                         where singleData.Id == singleCRUDData.Id
+                                         select singleData).FirstOrDefault();
+                //搜尋出重複資料，新增失敗
+                if (singleCRUD != null)
+                {
+                    return "新增到重複SingleCRUD資料，新增失敗";
+                }
+                singleCRUDData.Upuser = "admin";
+                singleCRUDData.Updatetime = DateTime.Now;
+                singleCRUDData.Cruser = "admin";
+                singleCRUDData.Crdatetime = DateTime.Now;
+                _db.SingleCRUD.Add(singleCRUDData);
+                _db.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return "false";
+            }
+        }
+
+        public string UpdateSingleCRUDData(SingleCRUDModel singleCRUDDataModel)
+        {
+            try
+            {
+                SingleCRUD singleCRUD = (from single in _db.SingleCRUD
+                                         where single.Id == singleCRUDDataModel.Id
+                                         select single).FirstOrDefault();
+                //查無資料，修改失敗
+                if (singleCRUD == null)
+                {
+                    return "查無此修改資料，請確認人員編號是否異動或刪除";
+                }
+                _db.SingleCRUD.Attach(singleCRUD);
+                singleCRUD.Name = singleCRUDDataModel.Name;
+                singleCRUD.Headcount = singleCRUDDataModel.HeadCount;
+                singleCRUD.Dtype = singleCRUDDataModel.Dtype;
+                singleCRUD.Upuser = "admin";
+                singleCRUD.Updatetime = DateTime.Now;
+                singleCRUD.Cruser = "admin";
+                singleCRUD.Crdatetime = DateTime.Now;
+                _db.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return "false";
+            }
+        }
+
+        /// <summary>
+        /// 取得多筆人員資料
+        /// </summary>
+        /// <returns></returns>
+        public SingleCRUDModel GetSingleCRUDData(string dId)
+        {
+            try
+            {
+                var singleCRUDDataList = (from singleData in _db.SingleCRUD
+                                          where singleData.Id == dId
+                                          select new SingleCRUDModel
+                                          {
+                                              Dtype = singleData.Dtype,
+                                              Id = singleData.Id,
+                                              Name = singleData.Name,
+                                              HeadCount = singleData.Headcount
+                                          }).FirstOrDefault();
+                return singleCRUDDataList;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// 刪除多筆資料
         /// </summary>

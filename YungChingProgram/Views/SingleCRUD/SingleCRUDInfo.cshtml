@@ -1,0 +1,114 @@
+﻿@model YungChingProgram.ViewModels.SingleCRUDInfoViewModel
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+        <div class="x_content">
+            <form id="formMain" onsubmit="return InsertOrUpdateBKMBData();">
+                <div class="row form-horizontal form-label-left" style="margin-bottom:8px;">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                            部門代碼
+                        </label>
+                        <div class="col-md-7 col-sm-6 col-xs-6">
+                            @Html.EditorFor(model => model.SingleCRUDModel.Id, new { htmlAttributes = new { id = "id", Name = "id", @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                            部門名稱
+                        </label>
+                        <div class="col-md-7 col-sm-6 col-xs-6">
+                            @Html.EditorFor(model => model.SingleCRUDModel.Name, new { htmlAttributes = new { id = "name", Name = "name", @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                            部門類別
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            @Html.DropDownListFor(model => model.DTypeSelectList, Model.DTypeSelectList, new { id = "Dtype", Name = "Dtype", @class = "form-control " })
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-3 col-xs-12">
+                            部門人數
+                        </label>
+                        <div class="col-md-7 col-sm-6 col-xs-6">
+                            @Html.EditorFor(model => model.SingleCRUDModel.HeadCount, new { htmlAttributes = new { id = "HeadCount", Name = "HeadCount", @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="row form-horizontal form-label-left">
+                    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">儲存</button>
+                        <button type="button" class="btn btn-danger" onclick="ClearInput()">清除</button>
+                        <button type="button" class="btn btn-dark" onclick="location.href='@Url.Action("Index", "SingleCRUD")'">離開</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    $(document).ready(function () {
+        //如果是修改模式則鎖定PK格子
+        if ("@Model.Mode" == "Update") {
+            if ("@Model.ErrorMessage" != "") {
+                 $("#TipSpan").text("@Model.ErrorMessage");
+                 OpenTipModal();
+            }
+            $('#id').prop("disabled", true);
+            $("#Dtype").val("@Model.SingleCRUDModel.Dtype");
+        }
+    });
+
+    function InsertOrUpdateBKMBData() {
+        var modeUrl = "";
+        var modeString = "";
+        if ("@Model.Mode" == "Update") {
+            modeUrl = '@Url.Action("UpdateSingleCRUDData", "SingleCRUD")'
+            modeString="修改"
+        }
+        else
+        {
+            modeUrl = '@Url.Action("InsertColumnCRUDData", "SingleCRUD")'
+            modeString = "新增"
+        }
+        $('#id').prop("disabled", false);
+        var formDatas = $('#formMain :input').serialize();
+        $.ajax({
+            url: modeUrl,
+            data: formDatas,
+            type: 'post',
+            success: function (data)
+            {
+                if (data.result == "true") {
+                    $("#TipSpan").text(modeString + "成功");
+                    $('#id').prop("disabled", true);
+                    $("#tipsButton").click(function () {
+                        location.href = '@Url.Action("index", "SingleCRUD")';
+                    });
+                    OpenTipModal();
+                }
+                else if (data.result == "false") {
+                    $("#TipSpan").text(modeString+"失敗");
+                    OpenTipModal();
+                }
+                else {
+                    $("#TipSpan").text(data.result);
+                    OpenTipModal();
+                }
+            }
+        })
+
+        return false;
+    }
+
+    //顯示Dialog提示
+    function OpenTipModal() {
+        $('#TipModal').modal({
+            backdrop: 'static', keyboard: false
+        });
+    }
+</script>
