@@ -53,5 +53,30 @@ namespace YungChingProgram.Controllers
                 return PartialView();
             }
         }
+
+        /// <summary>
+        /// 刪除資料
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DeleteSingleCRUDDataList(List<string> didList)
+        {
+            try
+            {
+                //判斷PKEY是否有填寫
+                foreach (var item in didList)
+                {
+                    if (string.IsNullOrEmpty(item))
+                    {
+                        return Json(new { result = "人員Id為空值" });
+                    }
+                }
+                var result = _service.DeleteSingleCRUDDataList(didList);
+                return Json(new { result = result });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { result = "false" });
+            }
+        }
     }
 }

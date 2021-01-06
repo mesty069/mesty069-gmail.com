@@ -52,5 +52,35 @@ namespace YungChingProgram.Servicves
                 return null;
             }
         }
+
+        /// <summary>
+        /// 刪除多筆資料
+        /// </summary>
+        /// <param name="didList"></param>
+        /// <returns></returns>
+        public string DeleteSingleCRUDDataList(List<string> didList)
+        {
+            try
+            {
+                foreach (var item in didList)
+                {
+                    SingleCRUD singleCRUD = (from single in _db.SingleCRUD
+                                             where single.Id == item
+                                             select single).FirstOrDefault();
+                    //查無資料刪除失敗
+                    if (singleCRUD == null)
+                    {
+                        return "查無此刪除資料，請確認人員編號是否異動或已刪除";
+                    }
+                    _db.SingleCRUD.Remove(singleCRUD);
+                }
+                _db.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return "false";
+            }
+        }
     }
 }

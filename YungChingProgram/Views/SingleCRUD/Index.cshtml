@@ -17,6 +17,7 @@
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12" style="text-align:right;">
         <button type="button" class="btn btn-primary" onclick="GetPartialViewDataList()">查詢</button>
+        <button type="button" class="btn btn-danger" id="DeleteButton" disabled onclick="DeleteOpenTipModal()">刪除</button>
     </div>
 </div>
 <div class="x_content">
@@ -52,5 +53,89 @@
                 $('#tbody').html(data);
             }
         })
+    }
+
+    //刪除資料
+    function DeleteData() {
+        var selectedIdArray = GetCheckSelectedIdArray()
+        var postData = { didList: selectedIdArray };
+        $.ajax({
+            url: "@Url.Action("DeleteSingleCRUDDataList", "SingleCRUD")",
+            data: postData,
+            type: 'post',
+            success: function (data) {
+                if (data.result == "true") {
+                $("#TipSpan").text("刪除成功");
+                OpenTipModal();
+                GetPartialViewDataList();
+                $('#UpdateButton').attr('disabled', true);
+                $('#DeleteButton').attr('disabled', true);
+                }
+                else if (data.result == "false") {
+                    $("#TipSpan").text("刪除失敗");
+                    OpenTipModal();
+                }
+                else {
+                    $("#TipSpan").text(data.result);
+                    OpenTipModal();
+                }
+              },
+            traditional: true,
+            error: function () {
+                $("#TipSpan").text("刪除失敗");
+                OpenTipModal();
+            }
+        });
+    }
+
+    //刪除提示畫面設定
+    function DeleteOpenTipModal() {
+        var selectedIdArray = GetCheckSelectedIdArray()
+        $("#DeleteConfirm").attr('onclick', "DeleteData(" + selectedIdArray + ");");
+        //var singleCRUDId = $("#singleCRUDData_" + i).find('#Did').text();
+        $("#DeleteSpan").text("是否確定刪除部門編號 (" + selectedIdArray + ") 的資料?");
+        OpenDeleteModal();
+    }
+
+    //顯示刪除提示
+    function OpenDeleteModal() {
+        $('#DeleteModal').modal({
+            backdrop: 'static', keyboard: false
+        });
+    }
+
+    //判斷選取數量
+    function CheckCombox() {
+        if ($(":checkbox:checked").length >= 2 || $(":checkbox:checked").length == 0) {
+            if ($(":checkbox:checked").length == 0) {
+                $('#DeleteButton').attr('disabled', true);
+            }
+            $('#UpdateButton').attr('disabled', true);
+        }
+        else {
+            $('#UpdateButton').attr('disabled', false);
+            $('#DeleteButton').attr('disabled', false);
+        }
+    }
+
+    function GetCheckSelectedIdArray() {
+        var Check = $("table input[type=checkbox]:checked").parent("td").parent("tr").find("#Did");//在table中找input下類型为checkbox屬性為選中狀態的數據，獲取選中行
+        var selectedIdArray = new Array();
+        Check.each(function () {
+            selectedIdArray.push($(this).text());
+        })
+        return selectedIdArray
+    }
+
+    //點兩下勾選checkbox
+    function ClickTrSelectedCheckBox(id) {
+        var checkBox = $('#singleCRUDData_' + id).find('input[type=checkbox]');
+        if (!checkBox.is(":checked")) {
+            checkBox.prop("checked", true);
+        }
+        else {
+            checkBox.prop("checked", false);
+        }
+        CheckCombox();
     }
 </script>
